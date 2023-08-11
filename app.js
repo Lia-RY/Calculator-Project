@@ -44,7 +44,14 @@ function appendToDisplay(value) {
             calculate();
         }
         currentOperationDisplay += ` ${value}`;
-    } else {
+    } 
+    else if (value === '.') {
+        if (!currentInput.includes('.')) {
+            currentInput += value;
+            currentOperationDisplay += value;
+        }
+    }
+    else {
         currentInput += value;
         currentOperationDisplay += value;
     }
