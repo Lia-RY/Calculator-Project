@@ -14,7 +14,6 @@ buttons.forEach(button => {
         const value = button.dataset.value;
         const operator = button.dataset.operator;
         const action = button.dataset.action;
-
         switch (true) {
             case (value !== undefined):
                 appendToDisplay(value);
