@@ -1,4 +1,5 @@
 let currentInput = '';
+let lastInput = '';
 let firstOperand = '';
 let secondOperand = '';
 let currentOperator = '';
@@ -15,30 +16,35 @@ buttons.forEach(button => {
         const operator = button.dataset.operator;
         const action = button.dataset.action;
 
-        switch (true) {
-            case (value !== undefined):
-                appendToDisplay(value);
-                break;
-            case (operator !== undefined):
-                setOperator(operator);
-                break;
-            case (action === 'backspace'):
-                backspace();
-                break;
-            case (action === 'clear'):
-                clearDisplay();
-                break;
-            case (action === 'calculate'):
-                calculate();
-                break;
-            default:
-                break;
-        }
+		if (value !== undefined) {
+			appendToDisplay(value);
+			lastInput = '';
+		}
+		if (operator !== undefined) {
+			setOperator(operator);
+			lastInput = '';
+		}
+		if (action === 'backspace') {
+			backspace();
+			lastInput = '';
+		} 
+		else if (action === 'clear') {
+			clearDisplay();
+			lastInput = '';
+		}
+		else if (action === 'calculate') {
+			calculate();
+			lastInput = 'calculate';
+		}
     });
 });
 
 
 function appendToDisplay(value) {
+	if (lastInput == 'calculate') {
+		currentInput = '';
+		currentOperationDisplay = '';
+	}
     if (value === '+' || value === '-' || value === '*' || value === '/') {
         if (currentInput !== '') {
             calculate();
@@ -137,7 +143,6 @@ document.addEventListener('keydown', function (event) {
     const key = event.key;
     if (/[0-9.]/.test(key)) {
         appendToDisplay(key);
-        
     } else if (key === '+' || key === '-' || key === '*' || key === '/') {
         setOperator(key);
     } else if (key === 'Enter') {
