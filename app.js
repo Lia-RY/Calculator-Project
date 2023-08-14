@@ -147,17 +147,26 @@ function calculate() {
     if (currentOperator !== '' && firstOperand !== '' && currentInput !== '') {
         secondOperand = currentInput;
         solution = operate(currentOperator, firstOperand, secondOperand);
-        display.value = solution;
-        currentInput = solution;
-        firstOperand = '';
-        secondOperand = '';
-        currentOperator = '';
-        currentOperationDisplay = `${currentInput} `;
-        operationDisplay.value = currentOperationDisplay;
+        
+        if (solution === 'Error' || isNaN(solution)) {
+            display.value = 'Error';
+            currentInput = 'Error';
+            firstOperand = '';
+            secondOperand = '';
+            currentOperator = '';
+            currentOperationDisplay = '';
+            operationDisplay.value = '';
+        } else {
+            display.value = solution;
+            currentInput = solution;
+            firstOperand = '';
+            secondOperand = '';
+            currentOperator = '';
+            currentOperationDisplay = `${currentInput} `;
+            operationDisplay.value = currentOperationDisplay;
+        }
     }
 }
-
-
 
 document.addEventListener('keydown', function (event) {
     const key = event.key;
