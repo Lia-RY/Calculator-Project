@@ -21,9 +21,14 @@ buttons.forEach(button => {
 			lastInput = '';
 		}
 		if (operator !== undefined) {
-			setOperator(operator);
-			lastInput = '';
-		}
+            if (currentOperator !== '') {
+                currentOperator = operator; 
+                operationDisplay.value = currentOperationDisplay;
+            } else if (currentInput !== '') {
+                setOperator(operator);
+            }
+            lastInput = '';
+        }
 		if (action === 'backspace') {
 			backspace();
 			lastInput = '';
@@ -50,7 +55,7 @@ function appendToDisplay(value) {
         if (currentInput !== '') {
             calculate();
         }
-        currentOperationDisplay += ` ${value}`;
+        currentOperationDisplay = currentOperationDisplay.replace(/[+\-*/]$/, '') + ` ${value}`;
     } 
     else if (value === '.') {
         if (!currentInput.includes('.')) {
@@ -73,7 +78,6 @@ function appendToDisplay(value) {
     display.value = currentInput;
     operationDisplay.value = currentOperationDisplay;
 }
-
 
 
 function clearDisplay() {
@@ -153,6 +157,7 @@ function calculate() {
         operationDisplay.value = currentOperationDisplay;
     }
 }
+
 
 
 document.addEventListener('keydown', function (event) {
