@@ -15,20 +15,14 @@ buttons.forEach(button => {
         const value = button.dataset.value;
         const operator = button.dataset.operator;
         const action = button.dataset.action;
-
 		if (value !== undefined) {
 			appendToDisplay(value);
 			lastInput = '';
 		}
 		if (operator !== undefined) {
-            if (currentOperator !== '') {
-                currentOperator = operator; 
-                operationDisplay.value = currentOperationDisplay;
-            } else if (currentInput !== '') {
-                setOperator(operator);
-            }
-            lastInput = '';
-        }
+			setOperator(operator);
+			lastInput = '';
+		}
 		if (action === 'backspace') {
 			backspace();
 			lastInput = '';
@@ -44,17 +38,16 @@ buttons.forEach(button => {
     });
 });
 
-
 function appendToDisplay(value) {
-    if (lastInput == 'calculate') {
-        currentInput = '';
-        currentOperationDisplay = ''; 
-    }
-
+	if (lastInput == 'calculate') {
+		currentInput = '';
+		currentOperationDisplay = '';
+	}
     if (value === '+' || value === '-' || value === '*' || value === '/') {
         if (currentInput !== '') {
             calculate();
         }
+        currentOperationDisplay += ` ${value}`;
     } 
     else if (value === '.') {
         if (!currentInput.includes('.')) {
@@ -62,22 +55,13 @@ function appendToDisplay(value) {
             currentOperationDisplay += value;
         }
     }
-    else if (value === '0' && currentInput === '0') {
-        return;
-    }
     else {
-        if (currentInput === '0') {
-            currentInput = value;
-            currentOperationDisplay = currentOperationDisplay.slice(0, -1) + value;
-        } else {
-            currentInput += value;
-            currentOperationDisplay += value;
-        }
+        currentInput += value;
+        currentOperationDisplay += value;
     }
     display.value = currentInput;
     operationDisplay.value = currentOperationDisplay;
 }
-
 
 function clearDisplay() {
     currentInput = '';
@@ -99,24 +83,21 @@ function setOperator(operator) {
             firstOperand = currentInput;
             currentOperator = operator;
             currentInput = '';
-            currentOperationDisplay = `${firstOperand} ${currentOperator} `;
+            currentOperationDisplay += ` ${operator} `;
             display.value = currentInput;
             operationDisplay.value = currentOperationDisplay;
         } else if (firstOperand !== '' && currentOperator !== '' && currentInput !== '') {
             secondOperand = currentInput;
             solution = operate(currentOperator, firstOperand, secondOperand);
-            firstOperand = solution.toString();
+            firstOperand = solution;
             currentOperator = operator;
             currentInput = '';
-            currentOperationDisplay = `${firstOperand} ${currentOperator} `;
+            currentOperationDisplay = `${solution} ${operator} `;
             display.value = currentInput;
             operationDisplay.value = currentOperationDisplay;
         }
-        lastInput = 'operator'; 
     }
 }
-
-
 
 function operate(operator, num1, num2) {
     num1 = parseFloat(num1);
@@ -133,7 +114,7 @@ function operate(operator, num1, num2) {
 			break;
         case '/':
             if (num2 !== 0) {
-				return num1 / num2;
+                return num1 / num2;
             } else {
                 return 'Error';
             }
