@@ -119,7 +119,12 @@ function operate(operator, num1, num2) {
 			break;
         case '/':
             if (num2 !== 0) {
-                return num1 / num2;
+				let tResult = (num1 / num2);
+				if (Number.isInteger(tResult)) {
+					return tResult;
+				} else {
+					return (num1 / num2).toFixed(6);
+				}
             } else {
                 return 'Error';
             }
