@@ -43,7 +43,7 @@ buttons.forEach(button => {
 function appendToDisplay(value) {
 	if (lastInput == 'calculate') {
 		currentInput = '';
-		currentOperationDisplay = '';
+		currentOperationDisplay = ''; 
 	}
     if (value === '+' || value === '-' || value === '*' || value === '/') {
         if (currentInput !== '') {
@@ -87,21 +87,23 @@ function setOperator(operator) {
             firstOperand = currentInput;
             currentOperator = operator;
             currentInput = '';
-            currentOperationDisplay += ` ${operator} `;
+            currentOperationDisplay = `${firstOperand} ${currentOperator} `;
             display.value = currentInput;
             operationDisplay.value = currentOperationDisplay;
         } else if (firstOperand !== '' && currentOperator !== '' && currentInput !== '') {
             secondOperand = currentInput;
             solution = operate(currentOperator, firstOperand, secondOperand);
-            firstOperand = solution;
+            firstOperand = solution.toString();
             currentOperator = operator;
             currentInput = '';
-            currentOperationDisplay = `${solution} ${operator} `;
+            currentOperationDisplay = `${firstOperand} ${currentOperator} `;
             display.value = currentInput;
             operationDisplay.value = currentOperationDisplay;
         }
+        lastInput = 'operator'; 
     }
 }
+
 
 
 function operate(operator, num1, num2) {
@@ -133,15 +135,16 @@ function calculate() {
     if (currentOperator !== '' && firstOperand !== '' && currentInput !== '') {
         secondOperand = currentInput;
         solution = operate(currentOperator, firstOperand, secondOperand);
-        // display.value = solution.toFixed(2);
-        // currentInput = solution.toFixed(2);
         display.value = solution;
         currentInput = solution;
         firstOperand = '';
         secondOperand = '';
         currentOperator = '';
+        currentOperationDisplay = `${currentInput} `;
+        operationDisplay.value = currentOperationDisplay;
     }
 }
+
 
 document.addEventListener('keydown', function (event) {
     const key = event.key;
