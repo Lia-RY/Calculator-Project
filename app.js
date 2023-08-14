@@ -55,7 +55,6 @@ function appendToDisplay(value) {
         if (currentInput !== '') {
             calculate();
         }
-        currentOperationDisplay = currentOperationDisplay.replace(/[+\-*/]$/, '') + ` ${value}`;
     } 
     else if (value === '.') {
         if (!currentInput.includes('.')) {
