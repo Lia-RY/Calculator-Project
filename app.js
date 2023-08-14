@@ -21,7 +21,7 @@ buttons.forEach(button => {
 		}
 		if (operator !== undefined) {
 			setOperator(operator);
-			lastInput = '';
+			lastInput = 'operator';
 		}
 		if (action === 'backspace') {
 			backspace();
@@ -104,30 +104,34 @@ function backspace() {
 }
 
 function setOperator(operator) {
-    if (firstOperand === '' && currentInput !== '') {
-        firstOperand = currentInput;
-        currentOperator = operator;
-        currentInput = '';
-        currentOperationDisplay = `${firstOperand} ${operator} `;
-        display.value = currentInput;
-        operationDisplay.value = currentOperationDisplay;
-    } else if (firstOperand !== '' && currentInput !== '') {
-        calculate();
-        firstOperand = solution;
-        currentOperator = operator;
-        currentInput = '';
-        currentOperationDisplay = `${firstOperand} ${operator} `;
-        display.value = currentInput;
-        operationDisplay.value = currentOperationDisplay;
-    } else if (firstOperand !== '' && currentInput === '') {
-        currentOperator = operator;
-        currentOperationDisplay = `${firstOperand} ${operator} `;
-        display.value = currentInput;
-        operationDisplay.value = currentOperationDisplay;
+	if (lastInput === 'operator') {
+		if (operator === '+' || operator === '-' || operator === '*' || operator === '/') {
+			currentOperationDisplay = currentOperationDisplay.slice(0, -2);
+            currentOperationDisplay += ` ${operator} `;
+			operationDisplay.value = currentOperationDisplay;
+			currentOperator = operator;
+		}
+	}
+    if (currentInput !== '' && currentInput !== '.') {
+        if (firstOperand === '' && currentOperator === '') {
+            firstOperand = currentInput;
+            currentOperator = operator;
+            currentInput = '';
+            currentOperationDisplay += ` ${operator} `;
+            display.value = currentInput;
+            operationDisplay.value = currentOperationDisplay;
+        } else if (firstOperand !== '' && currentOperator !== '' && currentInput !== '') {
+            secondOperand = currentInput;
+            solution = operate(currentOperator, firstOperand, secondOperand);
+            firstOperand = solution;
+            currentOperator = operator;
+            currentInput = '';
+            currentOperationDisplay = `${solution} ${operator} `;
+            display.value = currentInput;
+            operationDisplay.value = currentOperationDisplay;
+        }
     }
 }
-
-
 
 function operate(operator, num1, num2) {
     num1 = parseFloat(num1);
