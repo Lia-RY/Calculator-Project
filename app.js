@@ -41,10 +41,11 @@ buttons.forEach(button => {
 
 
 function appendToDisplay(value) {
-	if (lastInput == 'calculate') {
-		currentInput = '';
-		currentOperationDisplay = ''; 
-	}
+    if (lastInput == 'calculate') {
+        currentInput = '';
+        currentOperationDisplay = ''; 
+    }
+
     if (value === '+' || value === '-' || value === '*' || value === '/') {
         if (currentInput !== '') {
             calculate();
@@ -57,14 +58,22 @@ function appendToDisplay(value) {
             currentOperationDisplay += value;
         }
     }
-    else {
-        currentInput += value;
-        currentOperationDisplay += value;
+    else if (value === '0' && currentInput === '0') {
+        return;
     }
-
+    else {
+        if (currentInput === '0') {
+            currentInput = value;
+            currentOperationDisplay = currentOperationDisplay.slice(0, -1) + value;
+        } else {
+            currentInput += value;
+            currentOperationDisplay += value;
+        }
+    }
     display.value = currentInput;
     operationDisplay.value = currentOperationDisplay;
 }
+
 
 
 function clearDisplay() {
