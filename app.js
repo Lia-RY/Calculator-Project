@@ -138,6 +138,7 @@ function calculate() {
             currentOperationDisplay = '';
             operationDisplay.value = '';
         } else {
+            solution = parseFloat(solution.toFixed(6));
             display.value = solution;
             currentInput = solution;
             firstOperand = '';
