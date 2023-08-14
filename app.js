@@ -43,25 +43,33 @@ function appendToDisplay(value) {
 		currentInput = '';
 		currentOperationDisplay = '';
 	}
+    
     if (value === '+' || value === '-' || value === '*' || value === '/') {
         if (currentInput !== '') {
             calculate();
         }
         currentOperationDisplay += ` ${value}`;
-    } 
-    else if (value === '.') {
+    } else if (value === '.') {
         if (!currentInput.includes('.')) {
             currentInput += value;
             currentOperationDisplay += value;
         }
+    } else {
+        if (!(currentInput === '0' && value === '0')) { // Evita 0000.0
+            if (currentInput === '0') {
+                currentInput = value;
+                currentOperationDisplay = currentOperationDisplay.slice(0, -1) + value;
+            } else {
+                currentInput += value;
+                currentOperationDisplay += value;
+            }
+        }
     }
-    else {
-        currentInput += value;
-        currentOperationDisplay += value;
-    }
+    
     display.value = currentInput;
     operationDisplay.value = currentOperationDisplay;
 }
+
 
 function clearDisplay() {
     currentInput = '';
