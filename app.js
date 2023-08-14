@@ -39,23 +39,40 @@ buttons.forEach(button => {
 });
 
 function appendToDisplay(value) {
-	if (lastInput == 'calculate') {
-		currentInput = '';
-		currentOperationDisplay = '';
-	}
-    
+    if (solution === 'Error' || isNaN(solution)) {
+        if (isNaN(value) && value !== '.') {
+            return;  
+        }
+        display.value = '';
+        currentInput = '';
+        firstOperand = '';
+        secondOperand = '';
+        currentOperator = '';
+        solution = '';
+        currentOperationDisplay = '';
+        operationDisplay.value = '';
+    }
+
+    if (lastInput === 'calculate' && !isNaN(value)) {
+        currentInput = '';
+        currentOperationDisplay = '';
+    }
+
     if (value === '+' || value === '-' || value === '*' || value === '/') {
         if (currentInput !== '') {
             calculate();
         }
-        currentOperationDisplay += ` ${value}`;
+        if (solution !== 'Error' && !isNaN(solution)) {
+            currentOperationDisplay += ` ${value}`;
+            currentOperator = value; 
+        }
     } else if (value === '.') {
         if (!currentInput.includes('.')) {
             currentInput += value;
             currentOperationDisplay += value;
         }
     } else {
-        if (!(currentInput === '0' && value === '0')) { 
+        if (!(currentInput === '0' && value === '0')) {
             if (currentInput === '0') {
                 currentInput = value;
                 currentOperationDisplay = currentOperationDisplay.slice(0, -1) + value;
@@ -65,10 +82,11 @@ function appendToDisplay(value) {
             }
         }
     }
-    
+
     display.value = currentInput;
     operationDisplay.value = currentOperationDisplay;
 }
+
 
 
 function clearDisplay() {
