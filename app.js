@@ -55,7 +55,7 @@ function appendToDisplay(value) {
             currentOperationDisplay += value;
         }
     } else {
-        if (!(currentInput === '0' && value === '0')) { // Evita 0000.0
+        if (!(currentInput === '0' && value === '0')) { 
             if (currentInput === '0') {
                 currentInput = value;
                 currentOperationDisplay = currentOperationDisplay.slice(0, -1) + value;
