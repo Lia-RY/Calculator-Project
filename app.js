@@ -161,7 +161,7 @@ function calculate() {
         
         if (solution === 'Error' || isNaN(solution)) {
             display.value = 'Error';
-            currentInput = 'Error';
+            currentInput = '';
             firstOperand = '';
             secondOperand = '';
             currentOperator = '';
